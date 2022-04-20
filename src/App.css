@@ -1,0 +1,147 @@
+.sign-up__form label {
+    font-weight: 600;
+}
+.sign-up__form {
+    display: flex;
+    flex-direction: column;
+}
+.suggested {
+    margin-top: 32px;
+}
+.suggested h3 {
+    font-size: 15px;
+}
+.swiper-button-prev:after {
+    font-size: 23px !important;
+    content: "prev";
+    color: black;
+}
+.swiper-button-next:after {
+    font-size: 23px !important;
+    content: "next";
+    color: black;
+}
+.scholarship-banner {
+    padding: 0;
+}
+.header h3 {
+    color: #0056d2;
+}
+.header {
+    padding: 20px 0px;
+}
+.greetings p {
+    font-weight: 600;
+    font-size: 14px;
+    margin: 0;
+}
+.greetings span {
+    font-weight: 500;
+    font-size: 9px;
+    color: #555555;
+}
+.logo img {
+    position: absolute;
+    width: 108.78px;
+    right: 13.22px;
+    top: 23px;
+}
+.sign-up__button {
+    background-color: #675690;
+    margin: 10px 0px;
+    height: 38px;
+    display: flex;
+    justify-content: center;
+    border-radius: 0.25rem;
+    align-items: center;
+}
+.sign-up__button p {
+    font-size: 16px;
+    font-weight: 600;
+    margin: 0;
+    color: white;
+}
+.pointer {
+    cursor: pointer;
+}
+
+.login-redirect {
+    margin-top: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.login-redirect p {
+    margin: 0;
+    color: #676767;
+    font-size: 14px;
+}
+.custom-button {
+    border: 0;
+    padding: 0;
+    background-color: transparent;
+}
+.login-redirect h3 {
+    margin: 0;
+    color: #7917c4;
+    font-size: 16px;
+    font-weight: 600;
+    margin-left: 7px;
+}
+.error {
+    font-size: 15px;
+    color: #e12b2b;
+}
+.landing-page {
+    background-color: #2b3991;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+.auth-button {
+    margin-top: 50px;
+}
+.sign-in {
+    display: flex;
+    background-color: #675690;
+    width: 115px;
+    height: 37px;
+    border-radius: 25px;
+    align-items: center;
+    justify-content: center;
+    box-shadow: rgb(0 0 0 / 24%) 0px 3px 8px;
+}
+.sign-in h2 {
+    margin: 0;
+    font-size: 16px;
+    font-weight: 600;
+    color: white;
+}
+.login__button {
+    background-color: #675690;
+    margin: 10px 0px;
+    height: 38px;
+    display: flex;
+    justify-content: center;
+    border-radius: 0.25rem;
+    align-items: center;
+}
+.login__button p {
+    font-size: 16px;
+    font-weight: 600;
+    margin: 0;
+    color: white;
+}
+
+@media screen and (min-width: 576px) and (max-width: 992px) {
+    .login-modal > div {
+        max-width: 500px !important;
+        margin: 0rem auto !important;
+    }
+    .signup-modal > div {
+        max-width: 500px !important;
+        margin: 0rem auto !important;
+    }
+}
