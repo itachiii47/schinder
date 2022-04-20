@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { Container, Modal } from "react-bootstrap";
 import SignUpForm from "./SignUpForm";
 
-function Signup({ show, onHide, signIn, ...rest }) {
+function Signup({ show, onHide, signIn, handleLogin, ...rest }) {
     return (
         <Modal show={show} onHide={onHide} {...rest} size="md" aria-labelledby="contained-modal-title-vcenter" centered className="signup-modal">
             <div>
@@ -18,7 +18,7 @@ function Signup({ show, onHide, signIn, ...rest }) {
                         Sign Up
                     </h2>
                     <div style={{ padding: "30px" }}>
-                        <SignUpForm />
+                        <SignUpForm handleLogin={handleLogin} />
 
                         <div className="login-redirect">
                             <p>Already have an account?</p>

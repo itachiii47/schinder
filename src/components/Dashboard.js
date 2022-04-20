@@ -54,7 +54,7 @@ class Dashboard extends Component {
                                     <div className="card-body scholarship-banner">
                                         <img src={item.banner} style={{ width: "100%" }} />
                                     </div>
-                                    <div className="card-footer">
+                                    <div className="card-footer scholarship-content">
                                         <p>{item.content}</p>
                                     </div>
                                 </div>
