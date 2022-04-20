@@ -1,0 +1,2 @@
+# schinder
+Scholarship Finder App
