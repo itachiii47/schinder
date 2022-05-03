@@ -8,6 +8,11 @@
 .suggested {
     margin-top: 32px;
 }
+.scholarship-content p {
+    font-size: 10px;
+}
+.scholarship-content {
+}
 .suggested h3 {
     font-size: 15px;
 }

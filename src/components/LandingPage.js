@@ -16,6 +16,10 @@ class LandingPage extends Component {
     handleSignUpModal = () => {
         this.setState({ signUp: !this.state.signUp });
     };
+    handleLogin = () => {
+        this.props.history.push("/dashboard");
+    };
+
     render() {
         const { signUp, signIn } = this.state;
         return (
@@ -25,13 +29,13 @@ class LandingPage extends Component {
                         <img src="/skinder.png" />
                         <button onClick={this.handleSignUpModal} className="auth-button custom-button">
                             <div className="sign-in">
-                                <h2>Sign in</h2>
+                                <h2>Sign Up</h2>
                             </div>
                         </button>
                     </Col>
                 </Row>
-                <Signup show={signUp} onHide={this.handleSignUpModal} signIn={this.handleSignInModal} />
-                <Login show={signIn} onHide={this.handleSignInModal} signUp={this.handleSignUpModal} />
+                <Signup handleLogin={this.handleLogin} show={signUp} onHide={this.handleSignUpModal} signIn={this.handleSignInModal} />
+                <Login handleLogin={this.handleLogin} show={signIn} onHide={this.handleSignInModal} signUp={this.handleSignUpModal} />
             </div>
         );
     }
