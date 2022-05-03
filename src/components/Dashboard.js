@@ -1,29 +1,43 @@
 import React, { Component } from "react";
-import { Col } from "react-bootstrap";
+import { Col, Modal, Container, Button } from "react-bootstrap";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Mousewheel } from "swiper";
 import "swiper/css";
 import "swiper/css/navigation";
+import Egrants from "./../scholarships/Egrants";
+import Fisheries from "./../scholarships/Fisheries";
+import CentralSector from "./../scholarships/CentralSector";
+import MeritCumMeans from "./../scholarships/MeritCumMeans";
+import PostMatric from "./../scholarships/PostMatric";
+import Koya from "./../scholarships/Koya";
+import Pragati from "./../scholarships/Pragati";
 class Dashboard extends Component {
     state = {
         list: [
-            { id: 1, banner: "/illustration-1.jpg", content: "Community Scholarship " },
-            { id: 2, banner: "/illustration-1.jpg", content: "Income Scholarship" },
-            { id: 3, banner: "/illustration-1.jpg", content: "AICTE Scholarship " },
+            { id: 1, banner: "/illustration-1.jpg", content: "Egrants" },
+            { id: 2, banner: "/illustration-1.jpg", content: "FISHERIES EGRANTS SCHOLARSHIPS" },
+            { id: 3, banner: "/illustration-1.jpg", content: "Central Sector Scholarship" },
             { id: 4, banner: "/illustration-1.jpg", content: "Merit Cum Means Scholarship" },
-            { id: 5, banner: "/illustration-1.jpg", content: "Central Sector Scholarship " },
-            { id: 6, banner: "/illustration-1.jpg", content: "Post Matric Scholarship " },
-            { id: 7, banner: "/illustration-1.jpg", content: "Muslim Girl's Scholarship" },
-            { id: 8, banner: "/illustration-1.jpg", content: "Fisheries Egrants Scholarship" },
-            { id: 9, banner: "/illustration-1.jpg", content: "Scholarship 9" },
-            { id: 10, banner: "/illustration-1.jpg", content: "Scholarship 10" },
-            { id: 11, banner: "/illustration-1.jpg", content: "Scholarship 11" },
-            { id: 12, banner: "/illustration-1.jpg", content: "Scholarship 12" },
-            { id: 13, banner: "/illustration-1.jpg", content: "Scholarship 13" }
-        ]
+            { id: 5, banner: "/illustration-1.jpg", content: "Post Matric Scholarship" },
+            { id: 6, banner: "/illustration-1.jpg", content: "CH Muhammed Koya Scholarship" },
+            { id: 7, banner: "/illustration-1.jpg", content: "Pragati Scholarship" }
+        ],
+        show: false,
+        type: ""
+    };
+    handleCard = (type) => {
+        const { show } = this.state;
+        this.setState({ show: !show, type: type });
+    };
+    handleModal = () => {
+        const { show } = this.state;
+        this.setState({ show: !show });
+    };
+    handleApplication = (appId) => {
+        console.log(appId);
     };
     render() {
-        const { list } = this.state;
+        const { list, show, type } = this.state;
         return (
             <Col>
                 <div className="header">
@@ -50,7 +64,7 @@ class Dashboard extends Component {
                     >
                         {list.map((item) => (
                             <SwiperSlide key={item.id}>
-                                <div className="card">
+                                <div className="card pointer" onClick={() => this.handleCard(item.id)}>
                                     <div className="card-body scholarship-banner">
                                         <img src={item.banner} style={{ width: "100%" }} />
                                     </div>
@@ -61,6 +75,24 @@ class Dashboard extends Component {
                             </SwiperSlide>
                         ))}
                     </Swiper>
+                </div>
+                <div>
+                    <Modal show={show} onHide={this.handleModal} size="lg" aria-labelledby="contained-modal-title-vcenter" centered>
+                        <Container>
+                            {type === 1 && <Egrants />}
+                            {type === 2 && <Fisheries />}
+                            {type === 3 && <CentralSector />}
+                            {type === 4 && <MeritCumMeans />}
+                            {type === 5 && <PostMatric />}
+                            {type === 6 && <Koya />}
+                            {type === 7 && <Pragati />}
+                        </Container>
+                        <Modal.Footer>
+                            <Button variant="primary" onClick={() => this.handleApplication(type)}>
+                                Apply
+                            </Button>
+                        </Modal.Footer>
+                    </Modal>
                 </div>
             </Col>
         );
