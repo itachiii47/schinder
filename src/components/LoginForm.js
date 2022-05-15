@@ -14,6 +14,7 @@ class LoginForm extends Form {
             phone: "",
             password: ""
         },
+
         isProcessing: false
     };
 
@@ -32,16 +33,25 @@ class LoginForm extends Form {
 
         try {
             const response = await auth.login(data);
+
             if (response.status === 200) {
                 this.setState({ isProcessing: false });
                 toast.success("Success");
-                this.props.handleLogin();
+
+                localStorage.setItem("access_token", response.data.data.token);
+                const admin = localStorage.getItem("isAdmin");
+                if (admin) {
+                    this.props.handleAdminLogin();
+                } else {
+                    this.props.handleStudentLogin();
+                }
             } else {
                 toast.error("Sorry, Something went wrong");
             }
         } catch (ex) {
-            toast.error("Sorry, Something went wrong");
-            this.setState({ isProcessing: false });
+            if (ex.response && ex.response.status === 400) {
+                toast.error(ex.response.data.message);
+            }
         }
     };
     render() {

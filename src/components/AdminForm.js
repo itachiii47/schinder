@@ -4,47 +4,63 @@ import Joi from "joi-browser";
 import { toast } from "react-toastify";
 import Input from "../util/Input";
 import { Row, Col } from "react-bootstrap";
+import auth from "../services/auth.service";
 class AdminForm extends Form {
     state = {
         data: {
             email: "",
             phone: "",
-            userName: "",
+            name: "",
             password: "",
-            isAdmin: ""
+            isAdmin: true
         },
         errors: {
             email: "",
             phone: "",
-            userName: "",
+            name: "",
             password: ""
         }
     };
-    handleCheckBox = () => {
-        const { isAdmin } = this.state.data;
-        var data = { ...this.state.data };
-        data.isAdmin = !isAdmin;
-        this.setState({ data });
-    };
+
     schema = {
-        userName: Joi.string().min(3).max(75).required().label("User Name"),
+        name: Joi.string().min(3).max(75).required().label("User Name"),
         password: Joi.string().min(3).max(75).required().label("Password"),
         phone: Joi.string()
             .length(10)
             .regex(/^[0-9]+$/)
             .required()
             .label("Phone Number"),
-        email: Joi.string().email().required().label("Email")
+        email: Joi.string().email().required().label("Email"),
+        isAdmin: Joi.boolean().required()
+    };
+
+    doSubmit = async () => {
+        const { data } = this.state;
+
+        try {
+            const response = await auth.signup(data);
+            if (response.status === 200) {
+                this.setState({ isProcessing: false });
+                toast.success("Admin Added");
+                this.props.handleAdminSignup();
+            } else {
+                toast.error("Sorry, Something went wrong");
+            }
+        } catch (ex) {
+            if (ex.response && ex.response.status === 400) {
+                toast.error(ex.response.data.message);
+            }
+        }
     };
     render() {
         const { data, errors } = this.state;
         return (
-            <form className="sign-up__form">
+            <form className="sign-up__form" onSubmit={this.handleSubmit}>
                 <div className="mb-3">
-                    <Input onChange={this.handleChange} value={data.userName} name="userName" error={errors.userName} label="User Name" placeHolder="Enter Username" />
+                    <Input onChange={this.handleChange} value={data.name} name="name" error={errors.name} label="User Name" placeHolder="Enter name" />
                 </div>
                 <div className="mb-3">
-                    <Input onChange={this.handleChange} value={data.password} name="password" error={errors.password} label="Password" placeHolder="Enter Password" />
+                    <Input onChange={this.handleChange} type="password" value={data.password} name="password" error={errors.password} label="Password" placeHolder="Enter Password" />
                 </div>
                 <Row>
                     <Col md={6}>
@@ -58,14 +74,6 @@ class AdminForm extends Form {
                         </div>
                     </Col>
                 </Row>
-                <div className="mb-4">
-                    <div className="form-check form-switch switch-layout toggle-tag">
-                        <label onClick={this.handleCheckBox} className="form-check-label " for="flexSwitchCheckChecked">
-                            Are you an admin ?
-                        </label>
-                        <input onClick={this.handleCheckBox} className="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckChecked" />
-                    </div>
-                </div>
 
                 <button type="submit" className="custom-button">
                     <div className="sign-up__button">

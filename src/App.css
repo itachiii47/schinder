@@ -29,11 +29,18 @@
 .scholarship-banner {
     padding: 0;
 }
-.header h3 {
+.user-header h3 {
     color: #0056d2;
 }
-.header {
+.user-header {
     padding: 20px 0px;
+    display: flex;
+    justify-content: space-between;
+}
+.admin-header {
+    padding: 20px 0px;
+    display: flex;
+    justify-content: space-between;
 }
 .greetings p {
     font-weight: 600;

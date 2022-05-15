@@ -6,10 +6,16 @@ export function login(data) {
 export function signup(data) {
     return http.post("/users/signup", data);
 }
-
+export function logout() {
+    localStorage.removeItem("userName");
+    localStorage.removeItem("userId");
+    localStorage.removeItem("isAdmin");
+    localStorage.removeItem("access_token");
+}
 const exportObject = {
     login,
-    signup
+    signup,
+    logout
 };
 
 export default exportObject;

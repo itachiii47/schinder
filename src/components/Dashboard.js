@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Col, Modal, Container, Button } from "react-bootstrap";
+import { Col, Modal, Container, Button, Dropdown } from "react-bootstrap";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Mousewheel } from "swiper";
 import "swiper/css";
@@ -11,6 +11,8 @@ import MeritCumMeans from "./../scholarships/MeritCumMeans";
 import PostMatric from "./../scholarships/PostMatric";
 import Koya from "./../scholarships/Koya";
 import Pragati from "./../scholarships/Pragati";
+import { schinderDecode } from "./../services/jwt";
+import auth from "../services/auth.service";
 class Dashboard extends Component {
     state = {
         list: [
@@ -36,16 +38,38 @@ class Dashboard extends Component {
     handleApplication = (appId) => {
         console.log(appId);
     };
+    componentDidMount() {
+        schinderDecode();
+    }
+    handleLogOut = () => {
+        auth.logout();
+    };
+
     render() {
         const { list, show, type } = this.state;
         return (
             <Col>
-                <div className="header">
-                    <h3>Dashboard</h3>
-                    <div className="greetings">
-                        <p>Hello User,</p>
-                        <span>New Scholarships have been added to the list. Start browsing.</span>
+                <div className="user-header">
+                    <div>
+                        <h3>Dashboard</h3>
+                        <div className="greetings">
+                            <p>Hello User,</p>
+                            <span>New Scholarships have been added to the list. Start browsing.</span>
+                        </div>
                     </div>
+                    <Dropdown>
+                        <Dropdown.Toggle variant="success" id="dropdown-basic">
+                            Settings
+                        </Dropdown.Toggle>
+
+                        <Dropdown.Menu>
+                            <Dropdown.Item onClick={this.handleAdminSignup}>Add Admin</Dropdown.Item>
+                            <Dropdown.Item onClick={this.handleScholarshipModal}>Create Scholarship</Dropdown.Item>
+                            <Dropdown.Item onClick={this.handleLogOut} href="/">
+                                Log Out
+                            </Dropdown.Item>
+                        </Dropdown.Menu>
+                    </Dropdown>
                 </div>
                 <div>
                     <img src="/illustration-1.jpg" style={{ width: "100%", borderRadius: 12 }} />

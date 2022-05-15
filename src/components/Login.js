@@ -2,7 +2,7 @@ import React from "react";
 import { Container, Modal } from "react-bootstrap";
 import LoginForm from "./LoginForm";
 
-function Login({ show, onHide, signUp, handleLogin, ...rest }) {
+function Login({ show, onHide, signUp, handleStudentLogin, handleAdminLogin, ...rest }) {
     return (
         <Modal show={show} onHide={onHide} {...rest} size="md" aria-labelledby="contained-modal-title-vcenter" className="login-modal" centered>
             <div>
@@ -18,7 +18,7 @@ function Login({ show, onHide, signUp, handleLogin, ...rest }) {
                         Login
                     </h2>
                     <div style={{ padding: "30px" }}>
-                        <LoginForm handleLogin={handleLogin} />
+                        <LoginForm handleStudentLogin={handleStudentLogin} handleAdminLogin={handleAdminLogin} />
                         <div className="login-redirect">
                             <p>Don't have an account?</p>
                             <button

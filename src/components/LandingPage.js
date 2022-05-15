@@ -16,8 +16,11 @@ class LandingPage extends Component {
     handleSignUpModal = () => {
         this.setState({ signUp: !this.state.signUp });
     };
-    handleLogin = () => {
+    handleStudentLogin = () => {
         this.props.history.push("/dashboard");
+    };
+    handleAdminLogin = () => {
+        this.props.history.push("/admin");
     };
 
     render() {
@@ -34,8 +37,8 @@ class LandingPage extends Component {
                         </button>
                     </Col>
                 </Row>
-                <Signup handleLogin={this.handleLogin} show={signUp} onHide={this.handleSignUpModal} signIn={this.handleSignInModal} />
-                <Login handleLogin={this.handleLogin} show={signIn} onHide={this.handleSignInModal} signUp={this.handleSignUpModal} />
+                <Signup handleStudentLogin={this.handleStudentLogin} handleAdminLogin={this.handleAdminLogin} show={signUp} onHide={this.handleSignUpModal} signIn={this.handleSignInModal} />
+                <Login handleStudentLogin={this.handleStudentLogin} handleAdminLogin={this.handleAdminLogin} show={signIn} onHide={this.handleSignInModal} signUp={this.handleSignUpModal} />
             </div>
         );
     }
