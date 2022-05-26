@@ -4,16 +4,14 @@ import { Container, Button } from "react-bootstrap";
 import scholarship from "../services/scholarshipService";
 
 class ApplyModal extends Component {
-    handleApplication = (scholarshipId) => {
-        
+    handleApplication = async (scholarshipId) => {
         const userId = localStorage.getItem("userId");
-        
 
         try {
-            const response = await scholarship.apply(userId,scholarshipId);
+            const response = await scholarship.apply(userId, scholarshipId);
             if (response.status === 200) {
                 this.setState({ isProcessing: false });
-                toast.success("Applied Successfully"); 
+                toast.success("Applied Successfully");
             } else {
                 toast.error("Sorry, Something went wrong");
             }
