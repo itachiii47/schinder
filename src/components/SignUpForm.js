@@ -48,7 +48,7 @@ class SignUpForm extends Form {
                 toast.success("Signed Up");
                 schinderDecode();
                 const admin = localStorage.getItem("isAdmin");
-                if (admin) {
+                if (admin === "true") {
                     this.props.handleAdminLogin();
                 } else {
                     this.props.handleSignUpModal();

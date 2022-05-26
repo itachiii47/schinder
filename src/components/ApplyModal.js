@@ -1,11 +1,27 @@
 import React, { Component } from "react";
 import { Modal } from "react-bootstrap";
 import { Container, Button } from "react-bootstrap";
+import scholarship from "../services/scholarshipService";
 
 class ApplyModal extends Component {
-    state = {};
-    handleApplication = (appId) => {
-        console.log(appId);
+    handleApplication = (scholarshipId) => {
+        
+        const userId = localStorage.getItem("userId");
+        
+
+        try {
+            const response = await scholarship.apply(userId,scholarshipId);
+            if (response.status === 200) {
+                this.setState({ isProcessing: false });
+                toast.success("Applied Successfully"); 
+            } else {
+                toast.error("Sorry, Something went wrong");
+            }
+        } catch (ex) {
+            if (ex.response && ex.response.status === 400) {
+                toast.error(ex.response.data.message);
+            }
+        }
     };
     render() {
         const { show, details } = this.props;
@@ -16,7 +32,7 @@ class ApplyModal extends Component {
                     <p>{details.description}</p>
                 </Container>
                 <Modal.Footer>
-                    <Button variant="primary" onClick={() => this.handleApplication()}>
+                    <Button variant="primary" onClick={() => this.handleApplication(details._id)}>
                         Apply
                     </Button>
                 </Modal.Footer>

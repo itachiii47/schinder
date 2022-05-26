@@ -9,10 +9,14 @@ export function createScholarship(data) {
 export function studentDetail(data) {
     return http.post("/users/student", data);
 }
+export function apply(userId, scholarshipId) {
+    return http.post(`/scholarship/apply-scholarship?user=${userId}&scholarship=${scholarshipId}`);
+}
 const exportObject = {
     viewPending,
     createScholarship,
-    studentDetail
+    studentDetail,
+    apply
 };
 
 export default exportObject;
