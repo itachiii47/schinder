@@ -2,11 +2,13 @@ import React, { Component } from "react";
 import Login from "./Login";
 import Signup from "./SignUp";
 import { Col, Row } from "react-bootstrap";
+import StudentDetail from "./StudentDetail";
 
 class LandingPage extends Component {
     state = {
         signIn: false,
-        signUp: false
+        signUp: false,
+        studentDetail: false
     };
 
     handleSignInModal = () => {
@@ -16,6 +18,9 @@ class LandingPage extends Component {
     handleSignUpModal = () => {
         this.setState({ signUp: !this.state.signUp });
     };
+    handleStudentDetailModal = () => {
+        this.setState({ studentDetail: !this.state.studentDetail });
+    };
     handleStudentLogin = () => {
         this.props.history.push("/dashboard");
     };
@@ -24,7 +29,7 @@ class LandingPage extends Component {
     };
 
     render() {
-        const { signUp, signIn } = this.state;
+        const { signUp, signIn, studentDetail } = this.state;
         return (
             <div>
                 <Row>
@@ -37,8 +42,23 @@ class LandingPage extends Component {
                         </button>
                     </Col>
                 </Row>
-                <Signup handleStudentLogin={this.handleStudentLogin} handleAdminLogin={this.handleAdminLogin} show={signUp} onHide={this.handleSignUpModal} signIn={this.handleSignInModal} />
+                <Signup
+                    handleSignUpModal={this.handleSignUpModal}
+                    handleStudentLogin={this.handleStudentLogin}
+                    handleAdminLogin={this.handleAdminLogin}
+                    show={signUp}
+                    onHide={this.handleSignUpModal}
+                    handleStudentDetailModal={this.handleStudentDetailModal}
+                    signIn={this.handleSignInModal}
+                />
                 <Login handleStudentLogin={this.handleStudentLogin} handleAdminLogin={this.handleAdminLogin} show={signIn} onHide={this.handleSignInModal} signUp={this.handleSignUpModal} />
+                <StudentDetail
+                    handleStudentLogin={this.handleStudentLogin}
+                    handleAdminLogin={this.handleAdminLogin}
+                    show={studentDetail}
+                    onHide={this.handleSignInModal}
+                    signUp={this.handleSignUpModal}
+                />
             </div>
         );
     }

@@ -13,6 +13,9 @@ import Koya from "./../scholarships/Koya";
 import Pragati from "./../scholarships/Pragati";
 import { schinderDecode } from "./../services/jwt";
 import auth from "../services/auth.service";
+import { viewPending } from "./../services/scholarshipService";
+import { toast } from "react-toastify";
+import ApplyModal from "./ApplyModal";
 class Dashboard extends Component {
     state = {
         list: [
@@ -25,11 +28,13 @@ class Dashboard extends Component {
             { id: 7, banner: "/illustration-1.jpg", content: "Pragati Scholarship" }
         ],
         show: false,
-        type: ""
+        scholarships: [],
+        details: ""
     };
-    handleCard = (type) => {
+    handleCard = (item) => {
         const { show } = this.state;
-        this.setState({ show: !show, type: type });
+        this.setState({ details: item });
+        this.setState({ show: !show });
     };
     handleModal = () => {
         const { show } = this.state;
@@ -40,13 +45,28 @@ class Dashboard extends Component {
     };
     componentDidMount() {
         schinderDecode();
+        this.loadScholarships();
     }
+    loadScholarships = async () => {
+        try {
+            const response = await viewPending();
+            if (response.status === 200) {
+                this.setState({ isProcessing: false });
+                const data = response.data.data;
+                this.setState({ scholarships: data.scholarship });
+            }
+        } catch (ex) {
+            if (ex.response && ex.response.status === 400) {
+                toast.error(ex.response.data.message);
+            }
+        }
+    };
     handleLogOut = () => {
         auth.logout();
     };
 
     render() {
-        const { list, show, type } = this.state;
+        const { list, show, scholarships } = this.state;
         return (
             <Col>
                 <div className="user-header">
@@ -63,8 +83,6 @@ class Dashboard extends Component {
                         </Dropdown.Toggle>
 
                         <Dropdown.Menu>
-                            <Dropdown.Item onClick={this.handleAdminSignup}>Add Admin</Dropdown.Item>
-                            <Dropdown.Item onClick={this.handleScholarshipModal}>Create Scholarship</Dropdown.Item>
                             <Dropdown.Item onClick={this.handleLogOut} href="/">
                                 Log Out
                             </Dropdown.Item>
@@ -86,14 +104,14 @@ class Dashboard extends Component {
                         slidesPerView={4}
                         direction={"horizontal"}
                     >
-                        {list.map((item) => (
+                        {scholarships.map((item) => (
                             <SwiperSlide key={item.id}>
-                                <div className="card pointer" onClick={() => this.handleCard(item.id)}>
+                                <div className="card pointer" onClick={() => this.handleCard(item)}>
                                     <div className="card-body scholarship-banner">
-                                        <img src={item.banner} style={{ width: "100%" }} />
+                                        <img src="/illustration-1.jpg" style={{ width: "100%" }} />
                                     </div>
                                     <div className="card-footer scholarship-content">
-                                        <p>{item.content}</p>
+                                        <p style={{ fontWeight: 600 }}>{item.title}</p>
                                     </div>
                                 </div>
                             </SwiperSlide>
@@ -101,22 +119,7 @@ class Dashboard extends Component {
                     </Swiper>
                 </div>
                 <div>
-                    <Modal show={show} onHide={this.handleModal} size="lg" aria-labelledby="contained-modal-title-vcenter" centered>
-                        <Container>
-                            {type === 1 && <Egrants />}
-                            {type === 2 && <Fisheries />}
-                            {type === 3 && <CentralSector />}
-                            {type === 4 && <MeritCumMeans />}
-                            {type === 5 && <PostMatric />}
-                            {type === 6 && <Koya />}
-                            {type === 7 && <Pragati />}
-                        </Container>
-                        <Modal.Footer>
-                            <Button variant="primary" onClick={() => this.handleApplication(type)}>
-                                Apply
-                            </Button>
-                        </Modal.Footer>
-                    </Modal>
+                    <ApplyModal details={this.state.details} onHide={this.handleModal} show={this.state.show} />
                 </div>
             </Col>
         );

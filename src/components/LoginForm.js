@@ -4,6 +4,7 @@ import Joi from "joi-browser";
 import Input from "../util/Input";
 import auth from "../services/auth.service";
 import { toast } from "react-toastify";
+import { schinderDecode } from "./../services/jwt";
 class LoginForm extends Form {
     state = {
         data: {
@@ -37,10 +38,12 @@ class LoginForm extends Form {
             if (response.status === 200) {
                 this.setState({ isProcessing: false });
                 toast.success("Success");
-
                 localStorage.setItem("access_token", response.data.data.token);
+                schinderDecode();
                 const admin = localStorage.getItem("isAdmin");
-                if (admin) {
+                console.log(admin);
+
+                if (admin === "true") {
                     this.props.handleAdminLogin();
                 } else {
                     this.props.handleStudentLogin();

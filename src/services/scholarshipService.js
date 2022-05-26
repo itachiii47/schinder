@@ -6,9 +6,13 @@ export function viewPending() {
 export function createScholarship(data) {
     return http.post("/scholarship/creation", data);
 }
+export function studentDetail(data) {
+    return http.post("/users/student", data);
+}
 const exportObject = {
     viewPending,
-    createScholarship
+    createScholarship,
+    studentDetail
 };
 
 export default exportObject;

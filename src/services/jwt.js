@@ -7,6 +7,7 @@ export function schinderDecode() {
     localStorage.setItem("userId", user._id);
     localStorage.setItem("userName", user.name);
     localStorage.setItem("isAdmin", user.admin);
+    return;
 }
 
 export default {
