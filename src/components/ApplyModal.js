@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { Modal } from "react-bootstrap";
 import { Container, Button } from "react-bootstrap";
 import scholarship from "../services/scholarshipService";
+import { toast } from "react-toastify";
 
 class ApplyModal extends Component {
     handleApplication = async (scholarshipId) => {
