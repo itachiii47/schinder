@@ -3,6 +3,9 @@ import http from "./httpService";
 export function viewPending() {
     return http.get("/scholarship/view");
 }
+export function appliedScholarship() {
+    return http.get("/scholarship/applied-scholarship");
+}
 export function createScholarship(data) {
     return http.post("/scholarship/creation", data);
 }
@@ -12,11 +15,16 @@ export function studentDetail(data) {
 export function apply(userId, scholarshipId) {
     return http.post(`/scholarship/apply-scholarship?user=${userId}&scholarship=${scholarshipId}`);
 }
+export function approveScholarship(id) {
+    return http.post(`/scholarship/approve-scholarship?id=${id}`);
+}
 const exportObject = {
     viewPending,
     createScholarship,
     studentDetail,
-    apply
+    apply,
+    appliedScholarship,
+    approveScholarship
 };
 
 export default exportObject;

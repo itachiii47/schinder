@@ -1,10 +1,13 @@
 import React, { Component } from "react";
-import { Button, Col, Modal, Container, Dropdown } from "react-bootstrap";
-import { viewPending } from "./../services/scholarshipService";
+import { Col, Modal, Container, Dropdown } from "react-bootstrap";
+import { appliedScholarship, approveScholarship } from "./../services/scholarshipService";
 import { toast } from "react-toastify";
 import AdminForm from "./AdminForm";
 import CreateScholarship from "./CreateScholarship";
 import auth from "../services/auth.service";
+import Button from "../util/Button";
+import { confirmAlert } from "react-confirm-alert";
+import "react-confirm-alert/src/react-confirm-alert.css";
 class AdminPage extends Component {
     state = {
         applications: [],
@@ -16,11 +19,11 @@ class AdminPage extends Component {
     }
     fetchApplications = async () => {
         try {
-            const response = await viewPending();
+            const response = await appliedScholarship();
             if (response.status === 200) {
                 this.setState({ isProcessing: false });
-                const data = response.data.data;
-                this.setState({ applications: data.scholarship });
+                const data = response.data;
+                this.setState({ applications: data.data });
             }
         } catch (ex) {
             if (ex.response && ex.response.status === 400) {
@@ -42,6 +45,39 @@ class AdminPage extends Component {
     };
     handleLogOut = () => {
         auth.logout();
+    };
+    handleApprove = async (id) => {
+        try {
+            const response = await approveScholarship(id);
+            if (response.status === 200) {
+                toast.success("Approved");
+            }
+        } catch (ex) {
+            if (ex.response && ex.response.status === 400) {
+                toast.error(ex.response.data.message);
+            }
+        }
+    };
+    handleReject = async (id) => {
+        confirmAlert({
+            title: "Confirm to submit",
+            message: "Are you sure to do this ?",
+            buttons: [
+                {
+                    label: "Yes",
+                    onClick: () => this.deleteArray(id)
+                },
+                {
+                    label: "No",
+                    onClick: () => alert("Click No")
+                }
+            ]
+        });
+    };
+    deleteArray = (id) => {
+        const { applications } = this.state;
+        const newArray = applications.filter((item) => item._id !== id);
+        this.setState({ applications: newArray });
     };
     render() {
         const { applications: data, showAdmin, showScholarship } = this.state;
@@ -95,7 +131,7 @@ class AdminPage extends Component {
                 {/* <div>
                     <img src="/admin.webp" style={{ width: "100%", borderRadius: 12 }} />
                 </div> */}
-                <table className="table">
+                <table style={{ textAlign: "center", verticalAlign: "middle" }} className="table">
                     <thead>
                         <tr>
                             <th scope="col">#</th>
@@ -106,24 +142,29 @@ class AdminPage extends Component {
                         </tr>
                     </thead>
                     <tbody>
-                        {/* {data &&
-                            data.map((club, index) => (
+                        {data &&
+                            data.map((item, index) => (
                                 <tr key={index}>
-                                    <td>
-                                        <span
-                                            onClick={() => {
-                                                navigator.clipboard.writeText(club._id);
-                                                toast.success("Copied", { position: "bottom-left" });
-                                            }}
-                                        >
-                                            Copy ID &nbsp;
-                                            <MdContentCopy className="pointer" />
-                                        </span>
+                                    <td>{index + 1}</td>
+                                    <td>{item.student.name}</td>
+                                    <td>{item.scholarship.title}</td>
+                                    <td
+                                        style={{
+                                            display: "flex",
+
+                                            justifyContent: "center"
+                                        }}
+                                    >
+                                        {!item.isApproved && <Button onClick={() => this.handleApprove(item._id)} color="success" title="Approve" />}
+                                        {item.isApproved && <p style={{ color: "green" }}>Approved</p>}
                                     </td>
-                                    <td>{club.name}</td>
-                                    <td>{club.place}</td>
+                                    {!item.isApproved && (
+                                        <td>
+                                            <Button onClick={() => this.handleReject(item._id)} color="danger" title="Reject" />
+                                        </td>
+                                    )}
                                 </tr>
-                            ))} */}
+                            ))}
                     </tbody>
                 </table>
             </Col>
