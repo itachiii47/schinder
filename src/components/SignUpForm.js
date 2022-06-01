@@ -44,10 +44,13 @@ class SignUpForm extends Form {
         try {
             const response = await auth.signup(data);
             if (response.status === 200) {
+                const token = response.data.data.token;
                 this.setState({ isProcessing: false });
+                localStorage.setItem("access_token", token);
                 toast.success("Signed Up");
                 schinderDecode();
                 const admin = localStorage.getItem("isAdmin");
+                console.log(admin);
                 if (admin === "true") {
                     this.props.handleAdminLogin();
                 } else {
