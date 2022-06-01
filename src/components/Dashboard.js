@@ -49,7 +49,8 @@ class Dashboard extends Component {
     }
     loadScholarships = async () => {
         try {
-            const response = await viewPending();
+            const studentId = localStorage.getItem("userId");
+            const response = await viewPending(studentId);
             if (response.status === 200) {
                 this.setState({ isProcessing: false });
                 const data = response.data.data;

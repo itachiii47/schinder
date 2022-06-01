@@ -1,7 +1,7 @@
 import http from "./httpService";
 
-export function viewPending() {
-    return http.get("/scholarship/view");
+export function viewPending(data) {
+    return http.get(`/scholarship/view?_id=${data}`);
 }
 export function appliedScholarship() {
     return http.get("/scholarship/applied-scholarship");
