@@ -66,12 +66,16 @@ class SignUpForm extends Form {
             }
         }
     };
+    //for displaying anything you want to show on the screen
     render() {
+        //data and error are taken from state.
         const { data, errors } = this.state;
         return (
             <>
                 <form className="sign-up__form" onSubmit={this.handleSubmit}>
                     <div className="mb-3">
+                        {/* value is filled inside data.variable */}
+                        {/* error is filled inside error.variable */}
                         <Input onChange={this.handleChange} value={data.name} name="name" error={errors.name} label="Name" placeHolder="Enter Name" />
                     </div>
                     <div className="mb-3">

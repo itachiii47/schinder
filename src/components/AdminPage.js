@@ -132,8 +132,11 @@ class AdminPage extends Component {
                     <img src="/admin.webp" style={{ width: "100%", borderRadius: 12 }} />
                 </div> */}
                 <table style={{ textAlign: "center", verticalAlign: "middle" }} className="table">
+                    {/* heading of the table */}
                     <thead>
+                        {/* rows of the table */}
                         <tr>
+                            {/* each heading */}
                             <th scope="col">#</th>
                             <th scope="col">Student's Name</th>
                             <th scope="col">Scholarships Applied</th>
@@ -141,12 +144,16 @@ class AdminPage extends Component {
                             <th scope="col">Reject</th>
                         </tr>
                     </thead>
+                    {/* body of the table */}
                     <tbody>
                         {data &&
                             data.map((item, index) => (
+                                // row of the table
                                 <tr key={index}>
+                                    {/* data in table */}
                                     <td>{index + 1}</td>
-                                    <td>{item.student.name}</td>
+
+                                    {/* <td>{item.student.name}</td> */}
                                     <td>{item.scholarship.title}</td>
                                     <td
                                         style={{
@@ -155,6 +162,7 @@ class AdminPage extends Component {
                                             justifyContent: "center"
                                         }}
                                     >
+                                        {/* conditional rendering */}
                                         {!item.isApproved && <Button onClick={() => this.handleApprove(item._id)} color="success" title="Approve" />}
                                         {item.isApproved && <p style={{ color: "green" }}>Approved</p>}
                                     </td>

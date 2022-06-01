@@ -35,7 +35,7 @@ class CreateScholarship extends Form {
             { id: "hindu", name: "Hindu" },
             { id: "christian", name: "christian" },
             { id: "budhist", name: "Budhist" },
-            { id: "jain", name: "Jain" }
+            { id: "jains", name: "Jain" }
         ],
         category: [
             { id: "obc", name: "OBC" },
