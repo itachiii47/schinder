@@ -94,29 +94,39 @@ class Dashboard extends Component {
                 </div>
                 <div className="suggested">
                     <h3>Suggested scholorships for you </h3>
-                    <Swiper
-                        className="slider"
-                        navigation={true}
-                        modules={[Navigation, Mousewheel]}
-                        spaceBetween={10}
-                        autoplay={{ delay: 1500 }}
-                        speed={1000}
-                        slidesPerView={4}
-                        direction={"horizontal"}
-                    >
-                        {scholarships.map((item) => (
-                            <SwiperSlide key={item.id}>
-                                <div className="card pointer" onClick={() => this.handleCard(item)}>
-                                    <div className="card-body scholarship-banner">
-                                        <img src="/illustration-1.jpg" style={{ width: "100%" }} />
+                    {scholarships && (
+                        <Swiper
+                            className="slider"
+                            navigation={true}
+                            modules={[Navigation, Mousewheel]}
+                            spaceBetween={10}
+                            autoplay={{ delay: 1500 }}
+                            speed={1000}
+                            slidesPerView={4}
+                            direction={"horizontal"}
+                        >
+                            {scholarships.map((item) => (
+                                <SwiperSlide key={item.id}>
+                                    <div className="card pointer" onClick={() => this.handleCard(item)}>
+                                        <div className="card-body scholarship-banner">
+                                            <img src="/illustration-1.jpg" style={{ width: "100%" }} />
+                                        </div>
+                                        <div className="card-footer scholarship-content">
+                                            <p style={{ fontWeight: 600 }}>{item.title}</p>
+                                        </div>
                                     </div>
-                                    <div className="card-footer scholarship-content">
-                                        <p style={{ fontWeight: 600 }}>{item.title}</p>
+                                </SwiperSlide>
+                            ))}
+                            {scholarships.length < 1 && (
+                                <>
+                                    <h2>Sorry, Currently There Are No Eligible Scholarships.</h2>
+                                    <div style={{ width: 500, margin: "0 auto" }}>
+                                        <img src="/empty.jpg" style={{ width: "100%" }} />
                                     </div>
-                                </div>
-                            </SwiperSlide>
-                        ))}
-                    </Swiper>
+                                </>
+                            )}
+                        </Swiper>
+                    )}
                 </div>
                 <div>
                     <ApplyModal details={this.state.details} onHide={this.handleModal} show={this.state.show} />
