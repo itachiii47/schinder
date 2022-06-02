@@ -153,7 +153,7 @@ class AdminPage extends Component {
                                     {/* data in table */}
                                     <td>{index + 1}</td>
 
-                                    {/* <td>{item.student.name}</td> */}
+                                    {<td>{item.student.name}</td>}
                                     <td>{item.scholarship.title}</td>
                                     <td
                                         style={{
