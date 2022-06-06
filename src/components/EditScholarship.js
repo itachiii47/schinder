@@ -4,11 +4,10 @@ import Joi from "joi-browser";
 import { toast } from "react-toastify";
 import Input from "../util/Input";
 import { Row, Col } from "react-bootstrap";
-import auth from "../services/auth.service";
-import DropDown from "../util/Dropdown";
-import scholar from "../services/scholarshipService";
+import scholarshipService from "../services/scholarshipService";
 import MultiSelect from "./../util/MultiSelect";
-class CreateScholarship extends Form {
+import { inputFormatDate } from "./timeFormat";
+class EditScholarship extends Form {
     state = {
         data: {
             title: "",
@@ -55,7 +54,12 @@ class CreateScholarship extends Form {
         residence: [
             { id: "kerala", name: "Kerala" },
             { id: "Tamil Nadu", name: "Tamil Nadu" }
-        ]
+        ],
+        scholarId: "",
+        selectedReligion: [],
+        selectedCaste: [],
+        selectedCategory: [],
+        selectedResidence: []
     };
 
     schema = {
@@ -94,10 +98,11 @@ class CreateScholarship extends Form {
         this.setState({ isProcessing: true });
 
         try {
-            const response = await scholar.createScholarship(details);
+            const id = this.props.scholarId;
+            const response = await scholarshipService.editScholarship(id, details);
             if (response.status === 200) {
                 this.setState({ isProcessing: false });
-                toast.success("Successfully Created");
+                toast.success("Successfully Edited");
                 this.props.handleScholarshipModal();
             } else {
                 toast.error("Sorry, Something went wrong");
@@ -128,8 +133,63 @@ class CreateScholarship extends Form {
         data.residence = Array.isArray(e) ? e.map((x) => x.value) : [];
         this.setState({ data });
     };
+    componentDidMount() {
+        const data = this.props.scholarId;
+        this.setState({ scholarId: data });
+        this.fetchEditScholarship();
+    }
+    fetchEditScholarship = async () => {
+        const { data, religion, caste, category, residence } = this.state;
+
+        try {
+            const id = this.props.scholarId;
+            const response = await scholarshipService.viewEdit(id);
+            if (response.data.statusCode === 200) {
+                const OldData = response.data.data;
+                const start = inputFormatDate(new Date(`${OldData.criteria.startDate}`).getTime());
+                const end = inputFormatDate(new Date(`${OldData.criteria.endDate}`).getTime());
+                data.title = OldData.title;
+                data.description = OldData.description;
+                data.religion = OldData.criteria.relegion;
+                data.category = OldData.criteria.category;
+                data.percentage = OldData.criteria.percentage;
+                data.income = OldData.criteria.income;
+                data.residence = OldData.criteria.residence;
+                data.caste = OldData.criteria.caste;
+                data.startDate = start;
+                data.endDate = end;
+                this.setState({ data });
+
+                const selectedReligion = religion.filter((item) => {
+                    return OldData.criteria.relegion.find((itemB) => {
+                        return item.id === itemB;
+                    });
+                });
+                const selectedCaste = caste.filter((item) => {
+                    return OldData.criteria.caste.find((itemB) => {
+                        return item.id === itemB;
+                    });
+                });
+                const selectedCategory = category.filter((item) => {
+                    return OldData.criteria.category.find((itemB) => {
+                        return item.id === itemB;
+                    });
+                });
+                const selectedResidence = residence.filter((item) => {
+                    return OldData.criteria.residence.find((itemB) => {
+                        return item.id === itemB;
+                    });
+                });
+                this.setState({ selectedReligion, selectedCaste, selectedCategory, selectedResidence });
+            }
+        } catch (ex) {
+            if (ex.response && ex.response.status === 400) {
+                toast.error(ex.response.data.message);
+            }
+        }
+    };
     render() {
-        const { data, errors, religion, caste, category, residence } = this.state;
+        const { data, errors, religion, caste, category, residence, selectedReligion } = this.state;
         return (
             <form className="sign-up__form" onSubmit={this.handleSubmit}>
                 <div className="mb-3">
@@ -157,7 +217,6 @@ class CreateScholarship extends Form {
                             <MultiSelect name="caste" data={caste} onChange={this.handleCasteMultiSelect} displayName="name" />
                         </div>
                     </Col>
-
                     <Col md={6}>
                         <div className="mb-3">
                             <label htmlFor="category" className="form-label">
@@ -196,4 +255,4 @@ class CreateScholarship extends Form {
     }
 }
 
-export default CreateScholarship;
+export default EditScholarship;

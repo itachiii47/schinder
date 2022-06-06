@@ -4,18 +4,13 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Mousewheel } from "swiper";
 import "swiper/css";
 import "swiper/css/navigation";
-import Egrants from "./../scholarships/Egrants";
-import Fisheries from "./../scholarships/Fisheries";
-import CentralSector from "./../scholarships/CentralSector";
-import MeritCumMeans from "./../scholarships/MeritCumMeans";
-import PostMatric from "./../scholarships/PostMatric";
-import Koya from "./../scholarships/Koya";
-import Pragati from "./../scholarships/Pragati";
 import { schinderDecode } from "./../services/jwt";
 import auth from "../services/auth.service";
 import { viewPending } from "./../services/scholarshipService";
 import { toast } from "react-toastify";
 import ApplyModal from "./ApplyModal";
+import { format } from "date-fns";
+
 class Dashboard extends Component {
     state = {
         list: [
@@ -68,6 +63,7 @@ class Dashboard extends Component {
 
     render() {
         const { list, show, scholarships } = this.state;
+
         return (
             <Col>
                 <div className="user-header">
@@ -114,6 +110,14 @@ class Dashboard extends Component {
                                         </div>
                                         <div className="card-footer scholarship-content">
                                             <p style={{ fontWeight: 600 }}>{item.title}</p>
+                                            <div style={{ display: "flex" }}>
+                                                <p style={{ marginRight: 4 }}>Start Date: </p>
+                                                {item.criteria.startDate && <p style={{ fontWeight: 600 }}>{format(new Date(`${item.criteria.startDate}`), "MMMM do, yyyy H:mma")}</p>}
+                                            </div>
+                                            <div style={{ display: "flex" }}>
+                                                <p style={{ marginRight: 4 }}>End Date: </p>
+                                                {item.criteria.endDate && <p style={{ fontWeight: 600 }}>{format(new Date(`${item.criteria.endDate}`), "MMMM do, yyyy H:mma")}</p>}
+                                            </div>
                                         </div>
                                     </div>
                                 </SwiperSlide>

@@ -5,6 +5,7 @@ import Input from "../util/Input";
 import auth from "../services/auth.service";
 import { toast } from "react-toastify";
 import { schinderDecode } from "./../services/jwt";
+import Button from "../util/Button";
 class LoginForm extends Form {
     state = {
         data: {
@@ -49,6 +50,7 @@ class LoginForm extends Form {
                     this.props.handleStudentLogin();
                 }
             } else {
+                this.setState({ isProcessing: false });
                 toast.error("Sorry, Something went wrong");
             }
         } catch (ex) {
@@ -67,12 +69,7 @@ class LoginForm extends Form {
                 <div className="mb-3">
                     <Input onChange={this.handleChange} type="password" value={data.password} name="password" error={errors.password} label=" Password" placeHolder="Enter Password" />
                 </div>
-
-                <button type="submit" className="custom-button" disabled={isProcessing}>
-                    <div className="login__button">
-                        <p>Login</p>
-                    </div>
-                </button>
+                <Button className="login__button" color="login" disabled={isProcessing} title="Login" />
             </form>
         );
     }

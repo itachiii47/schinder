@@ -29,6 +29,34 @@ class ApplyModal extends Component {
                 <Container style={{ padding: 20 }}>
                     <h2>{details.title}</h2>
                     <p>{details.description}</p>
+
+                    <div>
+                        <h5 style={{ textDecoration: "underline" }}> Criteria</h5>
+                        <div style={{ display: "flex" }}>
+                            <p style={{ marginRight: 5 }}>Caste :</p>
+                            <p>{details.criteria.caste.join(" - ")}</p>
+                        </div>
+                        <div style={{ display: "flex" }}>
+                            <p style={{ marginRight: 5 }}>Category :</p>
+                            <p>{details.criteria.category.join(" - ")}</p>
+                        </div>
+                        <div style={{ display: "flex" }}>
+                            <p style={{ marginRight: 5 }}>Income :</p>
+                            <p>{details.criteria.income}</p>
+                        </div>
+                        <div style={{ display: "flex" }}>
+                            <p style={{ marginRight: 5 }}>Percentage :</p>
+                            <p>{details.criteria.percentage}</p>
+                        </div>
+                        <div style={{ display: "flex" }}>
+                            <p style={{ marginRight: 5 }}>Religion :</p>
+                            <p>{details.criteria.relegion.join(" - ")}</p>
+                        </div>
+                        <div style={{ display: "flex" }}>
+                            <p style={{ marginRight: 5 }}>Residence :</p>
+                            <p>{details.criteria.residence}</p>
+                        </div>
+                    </div>
                 </Container>
                 <Modal.Footer>
                     <Button variant="primary" onClick={() => this.handleApplication(details._id)}>

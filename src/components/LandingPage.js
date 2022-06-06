@@ -25,7 +25,7 @@ class LandingPage extends Component {
         this.props.history.push("/dashboard");
     };
     handleAdminLogin = () => {
-        this.props.history.push("/admin");
+        this.props.history.push("/applied");
     };
 
     render() {
