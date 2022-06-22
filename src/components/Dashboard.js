@@ -133,9 +133,7 @@ class Dashboard extends Component {
                         </Swiper>
                     )}
                 </div>
-                <div>
-                    <ApplyModal details={this.state.details} onHide={this.handleModal} show={this.state.show} />
-                </div>
+                <div>{this.state.details && <ApplyModal details={this.state.details} onHide={this.handleModal} show={this.state.show} />}</div>
             </Col>
         );
     }
